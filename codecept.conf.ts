@@ -1,4 +1,6 @@
 import { setHeadlessWhen, setCommonPlugins } from '@codeceptjs/configure';
+import * as dotenv from 'dotenv';
+dotenv.config();
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
@@ -12,12 +14,20 @@ export const config: CodeceptJS.MainConfig = {
   helpers: {
     Playwright: {
       browser: 'chromium',
-      url: 'http://localhost',
+      url: 'https://www.saucedemo.com',
       show: true
     }
   },
   include: {
-    I: './steps_file'
+    I: './steps_file',
+    LoginPage: './e2e/pages/LoginPage.ts'
+  },
+  gherkin: {
+    features: './e2e/features/login.feature',
+    steps: [
+      './e2e/step-definitions/loginPage.steps.ts',
+
+    ]
   },
   plugins: {
     htmlReporter: {
