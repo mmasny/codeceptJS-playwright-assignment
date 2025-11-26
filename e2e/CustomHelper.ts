@@ -17,7 +17,6 @@ class CustomHelper extends Helper {
     }
 
     const { Playwright } = this.helpers;
-    // const page = Playwright.page;
     await Playwright.fillField(LoginPage.fields.username, userType);
     await Playwright.fillField(LoginPage.fields.password, process.env.USER_PASSWORD);
     await Playwright.click(LoginPage.buttons.login);
@@ -40,6 +39,14 @@ class CustomHelper extends Helper {
     }
   }
 
+  async clickButtonForProduct(productName: string) {
+    const { Playwright } = this.helpers;
+    const page = Playwright.page;
+
+    const card = page.locator(InventoryPage.locators.products).filter({ hasText: productName });
+
+    await card.locator('button').click();
+  }
 }
 
 export = CustomHelper
