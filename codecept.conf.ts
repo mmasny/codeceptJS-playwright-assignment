@@ -15,7 +15,10 @@ export const config: CodeceptJS.MainConfig = {
     Playwright: {
       browser: 'chromium',
       url: 'https://www.saucedemo.com',
-      show: true
+      show: true,
+    },
+    CustomHelper: {
+      require: './e2e/CustomHelper.ts'
     }
   },
   include: {
@@ -23,16 +26,23 @@ export const config: CodeceptJS.MainConfig = {
     LoginPage: './e2e/pages/LoginPage.ts'
   },
   gherkin: {
-    features: './e2e/features/login.feature',
+    features: './e2e/features/*.feature',
     steps: [
       './e2e/step-definitions/loginPage.steps.ts',
-
+      './e2e/step-definitions/inventoryPage.steps.ts'
     ]
   },
   plugins: {
     htmlReporter: {
       enabled: true
+    },
+    eachElement: {
+      enabled: true
+    },
+    pauseOnFail: {
+      enabled: true
     }
   },
+  fullPromiseBased: true,
   name: 'codeceptJS-playwright-homework'
 }
