@@ -1,6 +1,7 @@
 const Helper = require('@codeceptjs/helper');
 import LoginPage from './pages/LoginPage';
 import InventoryPage from './pages/InventoryPage';
+import type { Page, Locator } from 'playwright';
 
 class CustomHelper extends Helper {
 
@@ -20,14 +21,29 @@ class CustomHelper extends Helper {
     await Playwright.fillField(LoginPage.fields.username, userType);
     await Playwright.fillField(LoginPage.fields.password, process.env.USER_PASSWORD);
     await Playwright.click(LoginPage.buttons.login);
-
     await Playwright.waitInUrl('/inventory', 5);
   }
 
-  async getProductsNames(): Promise<string[]> {
+    getProducts(): Promise<Locator> {
     const { Playwright } = this.helpers;
     const page = Playwright.page;
-    return await page.locator(InventoryPage.locators.productName).allInnerTexts();
+    return page.locator(InventoryPage.locators.products);
+  }
+
+  async getProductsNames(): Promise<string[]> {
+    const products = await this.getProducts()
+    return await products.locator(InventoryPage.locators.productName).allInnerTexts();
+  }
+
+  async clickButtonForProduct(productName: string) {
+    const products = await this.getProducts()
+    const productCard = products.filter({ hasText: productName });
+    await productCard.locator(InventoryPage.buttons.cartButton).click();
+  }
+
+  async getAddToCartButtons (): Promise<Locator> {
+    const products = await this.getProducts()
+    return products.locator(InventoryPage.buttons.button);
   }
 
   checkAlphabeticalOrder(elements: string[]) {
@@ -37,15 +53,6 @@ class CustomHelper extends Helper {
         throw new Error('Elements are not in alphabetical order');
       }
     }
-  }
-
-  async clickButtonForProduct(productName: string) {
-    const { Playwright } = this.helpers;
-    const page = Playwright.page;
-
-    const card = page.locator(InventoryPage.locators.products).filter({ hasText: productName });
-
-    await card.locator('button').click();
   }
 }
 

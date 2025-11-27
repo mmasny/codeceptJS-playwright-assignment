@@ -7,7 +7,8 @@ export default {
   },
 
   buttons: {
-    addToCart: 'button[data-test=]',
+    button: 'button',
+    removefromCart: 'button[data-test^="remove-"]',
     cartButton: 'a[data-test="shopping-cart-link"]'
 
   }
