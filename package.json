@@ -1,6 +1,15 @@
 {
+  "scripts": {
+    "test:api": "codeceptjs run --tests",
+    "test:e2e": "codeceptjs run --features",
+    "allure:generate": "allure generate ./allure-results --clean",
+    "allure:open": "allure open ./allure-report",
+    "test:allure": "codeceptjs run && allure generate ./allure-results --clean && allure open ./allure-report"
+  },
   "dependencies": {
+    "@faker-js/faker": "^10.1.0",
     "codeceptjs": "^3.7.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "playwright": "^1.56.1"
   },

@@ -20,7 +20,16 @@ export const config: CodeceptJS.MainConfig = {
     },
     CustomHelper: {
       require: './e2e/CustomHelper.ts'
-    }
+    },
+    REST: {
+      endpoint: 'https://reqres.in/api',
+      defaultHeaders: {
+        'x-api-key': process.env.API_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    },
+    JSONResponse: {}
   },
   include: {
     I: './steps_file',
