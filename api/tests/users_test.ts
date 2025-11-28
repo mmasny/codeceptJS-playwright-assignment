@@ -11,7 +11,7 @@ Scenario('Get users and print those with odd ID number', async ({ I }) => {
 
   const res = await I.sendGetRequest(`/users?${query}`);
   I.seeResponseCodeIsSuccessful();
-  console.log(res.data.data.filter((user: { id: number }) => user.id % 2 !== 0));
+  I.say(res.data.data.filter((user: { id: number }) => user.id % 2 !== 0));
 })
 
 Scenario('Update a user', async ({ I }) => {
@@ -23,7 +23,7 @@ Scenario('Update a user', async ({ I }) => {
     hobby: hobby
     }
     )
-    
+
   I.seeResponseCodeIsSuccessful();
   assert.strictEqual(res.data.firstname, newName);
 })
@@ -38,8 +38,7 @@ delays.forEach((delay) => {
     const elapsedTime = Date.now() - start;
 
     const reqInfo = `delay=${delay} → status=${res.status}, time=${elapsedTime}ms`
-    console.log(reqInfo);
-    I.say(reqInfo);
+    I.log(reqInfo);
 
     I.seeResponseCodeIsSuccessful();
 

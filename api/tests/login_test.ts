@@ -9,8 +9,7 @@ Scenario('Login user - no password', async ({I}) => {
         password: ''
         }
     )
-  console.log(loginRes.data);
-  I.say(loginRes.data)
+  I.log(`Response: ${loginRes.data}`);
 
   I.seeResponseCodeIs(400);
 })

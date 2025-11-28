@@ -6,5 +6,10 @@ export = function() {
     // Define custom steps here, use 'this' to access default methods of I.
     // It is recommended to place a general 'login' function here.
 
+    log(content: string) {
+      console.log(content);
+      this.say(content);
+      
+    }
   });
 }
