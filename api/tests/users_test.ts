@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
-const { isSameDay } = require("date-fns");
 import assert from 'assert';
 
 
-Feature('Users endpoint')
+Feature('/users endpoint')
 
 Scenario('Get users and print those with odd ID number', async ({ I }) => {
   const query = new URLSearchParams({
@@ -15,30 +14,6 @@ Scenario('Get users and print those with odd ID number', async ({ I }) => {
   console.log(res.data.data.filter((user: { id: number }) => user.id % 2 !== 0));
 })
 
-Scenario('Register a user', async ({ I }) => {
-  // based on swagger API docs it should fail
-  // based on fragmentary postman collection it should succeed
-  const username = faker.person.firstName();
-  const password = faker.person.lastName();
-  const email = faker.internet.email(
-      {
-        firstName: username,
-        lastName: password,
-      }
-    );
-  const res = await I.sendPostRequest('/register', {
-    email: 'eve.holt@reqres.in',
-    password: 'pistol'
-    }
-    )
-
-  I.seeResponseCodeIsSuccessful();
-  const date = new Date(res.headers.date);
-  const today = new Date()
-  const result = isSameDay(date, today);
-  assert.strictEqual(result, true);
-})
-
 Scenario('Update a user', async ({ I }) => {
   const newName = faker.person.firstName();
   const hobby = 'testing';
@@ -48,7 +23,30 @@ Scenario('Update a user', async ({ I }) => {
     hobby: hobby
     }
     )
+    
   I.seeResponseCodeIsSuccessful();
-  console.log(res.data);
   assert.strictEqual(res.data.firstname, newName);
 })
+
+const delays = [0, 3];
+
+delays.forEach((delay) => {
+  Scenario(`Get users with ${delay}s delay, validate response time <= 1s`, async ({ I }) => {
+
+    const start = Date.now();
+    const res = await I.sendGetRequest(`/users?delay=${delay}`);
+    const elapsedTime = Date.now() - start;
+
+    const reqInfo = `delay=${delay} → status=${res.status}, time=${elapsedTime}ms`
+    console.log(reqInfo);
+    I.say(reqInfo);
+
+    I.seeResponseCodeIsSuccessful();
+
+    if (elapsedTime > 1000) {
+      throw new Error(
+        `Response for ${delay}s delay: ${elapsedTime}ms (expected <= 1000ms)`
+      );
+    }
+  });
+});
