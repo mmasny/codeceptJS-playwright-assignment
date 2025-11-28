@@ -1,7 +1,7 @@
 const Helper = require('@codeceptjs/helper');
 import LoginPage from './pages/LoginPage';
 import InventoryPage from './pages/InventoryPage';
-import type { Page, Locator } from 'playwright';
+import type { Locator } from 'playwright';
 
 class CustomHelper extends Helper {
 

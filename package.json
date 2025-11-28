@@ -4,7 +4,8 @@
     "test:e2e": "codeceptjs run --features",
     "allure:generate": "allure generate ./allure-results --clean",
     "allure:open": "allure open ./allure-report",
-    "test:allure": "codeceptjs run && allure generate ./allure-results --clean && allure open ./allure-report"
+    "test:all": "codeceptjs run",
+    "allure:results": "allure generate ./allure-results --clean && yarn allure open ./allure-report"
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
