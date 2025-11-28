@@ -1,6 +1,7 @@
 import { setHeadlessWhen, setCommonPlugins } from '@codeceptjs/configure';
 import * as dotenv from 'dotenv';
 dotenv.config();
+
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
@@ -9,7 +10,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 export const config: CodeceptJS.MainConfig = {
-  tests: './e2e/tests/*.ts',
+  tests: './api/tests/*.ts',
   output: './output',
   helpers: {
     Playwright: {
@@ -36,11 +37,15 @@ export const config: CodeceptJS.MainConfig = {
     htmlReporter: {
       enabled: true
     },
-    eachElement: {
-      enabled: true
-    },
     pauseOnFail: {
-      enabled: true
+      enabled: false
+    },
+    allure: {
+      enabled: true,
+      require: 'allure-codeceptjs',
+      outputDir: 'output/allure-results',
+      enableScreenshot: true,
+      enableAttachScreenshot: true,
     }
   },
   fullPromiseBased: true,

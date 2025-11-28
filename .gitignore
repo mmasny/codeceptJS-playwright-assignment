@@ -3,3 +3,5 @@ node_modules/
 output/
 yarn.lock
 .env
+allure-report/
+allure-results/
